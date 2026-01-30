@@ -1,2 +1,3 @@
 # Rock-paper-scissor
-lerning new thinks
+lerning new thinkgs
+
