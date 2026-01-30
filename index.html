@@ -2,206 +2,94 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Rock Paper Scissors</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #141e30, #243b55);
-      color: #fff;
-    }
-
-    .game {
-      background: #0e0e0e;
-      padding: 30px;
-      border-radius: 14px;
-      width: 360px;
-      text-align: center;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-    }
-
-    h1 {
-      margin-bottom: 15px;
-    }
-
-    .arena {
-      display: flex;
-      justify-content: space-between;
-      margin: 20px 0;
-    }
-
-    .player-box {
-      width: 45%;
-      padding: 15px;
-      border-radius: 10px;
-      background: #1a1a1a;
-    }
-
-    .label {
-      font-size: 14px;
-      opacity: 0.7;
-      margin-bottom: 8px;
-    }
-
-    .choice {
-      font-size: 28px;
-      min-height: 40px;
-    }
-
-    .choices {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
-
-    button {
-      flex: 1;
-      margin: 0 5px;
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #243b55;
-      color: #fff;
-      transition: transform 0.2s, background 0.2s;
-    }
-
-    button:hover:not(:disabled) {
-      transform: scale(1.05);
-      background: #355c7d;
-    }
-
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .result {
-      margin-top: 20px;
-      min-height: 40px;
-      font-size: 16px;
-    }
-
-    .score {
-      margin-top: 10px;
-      font-size: 14px;
-      opacity: 0.85;
-    }
-
-    .thinking {
-      animation: blink 0.6s infinite alternate;
-    }
-
-    @keyframes blink {
-      from { opacity: 0.3; }
-      to { opacity: 1; }
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rock Paper Scissors Stone</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Theme Toggle -->
+  <div class="theme-toggle">
+    <button id="themeBtn" class="theme-btn">
+      <span class="sun-icon">☀️</span>
+      <span class="moon-icon">🌙</span>
+    </button>
+  </div>
 
-<div class="game">
-  <h1>Rock Paper Scissors</h1>
+  <!-- Main Game Container -->
+  <div class="container">
+    <div class="game">
+      <!-- Header -->
+      <div class="header">
+        <h1 class="title">Rock Paper Scissors Stone</h1>
+        <p class="subtitle">Test your strategy against the bot</p>
+      </div>
 
-  <div class="arena">
-    <div class="player-box">
-      <div class="label">You</div>
-      <div class="choice" id="playerChoice">❔</div>
-    </div>
+      <!-- Game Arena -->
+      <div class="arena">
+        <!-- Player Section -->
+        <div class="player-section">
+          <div class="player-card">
+            <p class="player-label">Your Choice</p>
+            <div class="choice-display" id="playerChoice">❔</div>
+          </div>
+        </div>
 
-    <div class="player-box">
-      <div class="label">Bot</div>
-      <div class="choice" id="botChoice">❔</div>
+        <!-- VS Badge -->
+        <div class="vs-badge">VS</div>
+
+        <!-- Bot Section -->
+        <div class="player-section">
+          <div class="player-card">
+            <p class="player-label">Bot Choice</p>
+            <div class="choice-display" id="botChoice">❔</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Buttons -->
+      <div class="choices-grid">
+        <button class="choice-btn" onclick="startRound('rock')" data-choice="rock">
+          <span class="emoji">🪨</span>
+          <span class="label">Rock</span>
+        </button>
+        <button class="choice-btn" onclick="startRound('paper')" data-choice="paper">
+          <span class="emoji">📄</span>
+          <span class="label">Paper</span>
+        </button>
+        <button class="choice-btn" onclick="startRound('scissors')" data-choice="scissors">
+          <span class="emoji">✂️</span>
+          <span class="label">Scissors</span>
+        </button>
+        <button class="choice-btn" onclick="startRound('stone')" data-choice="stone">
+          <span class="emoji">🪨</span>
+          <span class="label">Stone</span>
+        </button>
+      </div>
+
+      <!-- Result Section -->
+      <div class="result-section">
+        <p class="result-text" id="result">Make your move!</p>
+        <div class="score-board">
+          <div class="score-item">
+            <span class="score-label">You</span>
+            <span class="score-value" id="playerScore">0</span>
+          </div>
+          <div class="score-divider">—</div>
+          <div class="score-item">
+            <span class="score-label">Bot</span>
+            <span class="score-value" id="botScore">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reset Button -->
+      <button class="reset-btn" onclick="resetGame()">Reset Score</button>
     </div>
   </div>
 
-  <div class="choices">
-    <button onclick="startRound('rock')">🪨</button>
-    <button onclick="startRound('paper')">📄</button>
-    <button onclick="startRound('scissors')">✂️</button>
-  </div>
-
-  <div class="result" id="result">Make your move.</div>
-  <div class="score" id="score">You: 0 | Bot: 0</div>
-</div>
-
-<script>
-  const choices = [
-    { name: "rock", emoji: "🪨" },
-    { name: "paper", emoji: "📄" },
-    { name: "scissors", emoji: "✂️" }
-  ];
-
-  let playerScore = 0;
-  let botScore = 0;
-  let isPlaying = false;
-
-  const playerChoiceEl = document.getElementById("playerChoice");
-  const botChoiceEl = document.getElementById("botChoice");
-  const resultEl = document.getElementById("result");
-  const scoreEl = document.getElementById("score");
-  const buttons = document.querySelectorAll("button");
-
-  function startRound(playerPick) {
-    if (isPlaying) return;
-    isPlaying = true;
-
-    buttons.forEach(b => b.disabled = true);
-
-    const player = choices.find(c => c.name === playerPick);
-    playerChoiceEl.textContent = player.emoji;
-    resultEl.textContent = "Bot is thinking...";
-    botChoiceEl.textContent = "🤔";
-    botChoiceEl.classList.add("thinking");
-
-    let index = 0;
-    const shuffle = setInterval(() => {
-      botChoiceEl.textContent = choices[index % 3].emoji;
-      index++;
-    }, 150);
-
-    setTimeout(() => {
-      clearInterval(shuffle);
-      botChoiceEl.classList.remove("thinking");
-
-      const bot = choices[Math.floor(Math.random() * 3)];
-      botChoiceEl.textContent = bot.emoji;
-
-      decideWinner(player.name, bot.name);
-
-      buttons.forEach(b => b.disabled = false);
-      isPlaying = false;
-    }, 1200);
-  }
-
-  function decideWinner(player, bot) {
-    if (player === bot) {
-      resultEl.textContent = "It's a draw 🤝";
-    } else if (
-      (player === "rock" && bot === "scissors") ||
-      (player === "paper" && bot === "rock") ||
-      (player === "scissors" && bot === "paper")
-    ) {
-      playerScore++;
-      resultEl.textContent = "You win 🎉";
-    } else {
-      botScore++;
-      resultEl.textContent = "Bot wins 🤖";
-    }
-
-    scoreEl.textContent = `You: ${playerScore} | Bot: ${botScore}`;
-  }
-</script>
-
+  <!-- GSAP Script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <!-- Game Script -->
+  <script src="index.js"></script>
 </body>
 </html>
