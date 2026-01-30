@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Rock Paper Scissors</title>
+
   <style>
     * {
       box-sizing: border-box;
@@ -15,28 +16,51 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background: linear-gradient(135deg, #141e30, #243b55);
       color: #fff;
     }
 
     .game {
-      background: #111;
+      background: #0e0e0e;
       padding: 30px;
-      border-radius: 12px;
-      width: 320px;
+      border-radius: 14px;
+      width: 360px;
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
     }
 
     h1 {
-      margin-bottom: 20px;
-      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    .arena {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+
+    .player-box {
+      width: 45%;
+      padding: 15px;
+      border-radius: 10px;
+      background: #1a1a1a;
+    }
+
+    .label {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+
+    .choice {
+      font-size: 28px;
+      min-height: 40px;
     }
 
     .choices {
       display: flex;
       justify-content: space-between;
-      margin: 20px 0;
+      margin-top: 20px;
     }
 
     button {
@@ -47,81 +71,137 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      background: #2c5364;
+      background: #243b55;
       color: #fff;
       transition: transform 0.2s, background 0.2s;
     }
 
-    button:hover {
+    button:hover:not(:disabled) {
       transform: scale(1.05);
-      background: #3e6d82;
+      background: #355c7d;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     .result {
-      margin: 15px 0;
+      margin-top: 20px;
       min-height: 40px;
       font-size: 16px;
     }
 
     .score {
-      margin-top: 15px;
+      margin-top: 10px;
       font-size: 14px;
-      opacity: 0.9;
+      opacity: 0.85;
+    }
+
+    .thinking {
+      animation: blink 0.6s infinite alternate;
+    }
+
+    @keyframes blink {
+      from { opacity: 0.3; }
+      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
 
-  <div class="game">
-    <h1>Rock Paper Scissors</h1>
+<div class="game">
+  <h1>Rock Paper Scissors</h1>
 
-    <div class="choices">
-      <button onclick="play('rock')">🪨 Rock</button>
-      <button onclick="play('paper')">📄 Paper</button>
-      <button onclick="play('scissors')">✂️ Scissors</button>
+  <div class="arena">
+    <div class="player-box">
+      <div class="label">You</div>
+      <div class="choice" id="playerChoice">❔</div>
     </div>
 
-    <div class="result" id="result">
-      Make your move.
-    </div>
-
-    <div class="score" id="score">
-      You: 0 | Bot: 0
+    <div class="player-box">
+      <div class="label">Bot</div>
+      <div class="choice" id="botChoice">❔</div>
     </div>
   </div>
 
-  <script>
-    const choices = ["rock", "paper", "scissors"];
-    let playerScore = 0;
-    let botScore = 0;
+  <div class="choices">
+    <button onclick="startRound('rock')">🪨</button>
+    <button onclick="startRound('paper')">📄</button>
+    <button onclick="startRound('scissors')">✂️</button>
+  </div>
 
-    function play(playerChoice) {
-      const botChoice = choices[Math.floor(Math.random() * choices.length)];
-      let outcome = "";
+  <div class="result" id="result">Make your move.</div>
+  <div class="score" id="score">You: 0 | Bot: 0</div>
+</div>
 
-      if (playerChoice === botChoice) {
-        outcome = "It's a draw 🤝";
-      } else if (
-        (playerChoice === "rock" && botChoice === "scissors") ||
-        (playerChoice === "paper" && botChoice === "rock") ||
-        (playerChoice === "scissors" && botChoice === "paper")
-      ) {
-        playerScore++;
-        outcome = "You win 🎉";
-      } else {
-        botScore++;
-        outcome = "Bot wins 🤖";
-      }
+<script>
+  const choices = [
+    { name: "rock", emoji: "🪨" },
+    { name: "paper", emoji: "📄" },
+    { name: "scissors", emoji: "✂️" }
+  ];
 
-      document.getElementById("result").innerHTML =
-        `You chose <b>${playerChoice}</b><br>
-         Bot chose <b>${botChoice}</b><br><br>
-         ${outcome}`;
+  let playerScore = 0;
+  let botScore = 0;
+  let isPlaying = false;
 
-      document.getElementById("score").innerText =
-        `You: ${playerScore} | Bot: ${botScore}`;
+  const playerChoiceEl = document.getElementById("playerChoice");
+  const botChoiceEl = document.getElementById("botChoice");
+  const resultEl = document.getElementById("result");
+  const scoreEl = document.getElementById("score");
+  const buttons = document.querySelectorAll("button");
+
+  function startRound(playerPick) {
+    if (isPlaying) return;
+    isPlaying = true;
+
+    buttons.forEach(b => b.disabled = true);
+
+    const player = choices.find(c => c.name === playerPick);
+    playerChoiceEl.textContent = player.emoji;
+    resultEl.textContent = "Bot is thinking...";
+    botChoiceEl.textContent = "🤔";
+    botChoiceEl.classList.add("thinking");
+
+    let index = 0;
+    const shuffle = setInterval(() => {
+      botChoiceEl.textContent = choices[index % 3].emoji;
+      index++;
+    }, 150);
+
+    setTimeout(() => {
+      clearInterval(shuffle);
+      botChoiceEl.classList.remove("thinking");
+
+      const bot = choices[Math.floor(Math.random() * 3)];
+      botChoiceEl.textContent = bot.emoji;
+
+      decideWinner(player.name, bot.name);
+
+      buttons.forEach(b => b.disabled = false);
+      isPlaying = false;
+    }, 1200);
+  }
+
+  function decideWinner(player, bot) {
+    if (player === bot) {
+      resultEl.textContent = "It's a draw 🤝";
+    } else if (
+      (player === "rock" && bot === "scissors") ||
+      (player === "paper" && bot === "rock") ||
+      (player === "scissors" && bot === "paper")
+    ) {
+      playerScore++;
+      resultEl.textContent = "You win 🎉";
+    } else {
+      botScore++;
+      resultEl.textContent = "Bot wins 🤖";
     }
-  </script>
+
+    scoreEl.textContent = `You: ${playerScore} | Bot: ${botScore}`;
+  }
+</script>
 
 </body>
 </html>
