@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rock Paper Scissors</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+    }
+
+    .game {
+      background: #111;
+      padding: 30px;
+      border-radius: 12px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .choices {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+
+    button {
+      flex: 1;
+      margin: 0 5px;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #2c5364;
+      color: #fff;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: #3e6d82;
+    }
+
+    .result {
+      margin: 15px 0;
+      min-height: 40px;
+      font-size: 16px;
+    }
+
+    .score {
+      margin-top: 15px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="game">
+    <h1>Rock Paper Scissors</h1>
+
+    <div class="choices">
+      <button onclick="play('rock')">🪨 Rock</button>
+      <button onclick="play('paper')">📄 Paper</button>
+      <button onclick="play('scissors')">✂️ Scissors</button>
+    </div>
+
+    <div class="result" id="result">
+      Make your move.
+    </div>
+
+    <div class="score" id="score">
+      You: 0 | Bot: 0
+    </div>
+  </div>
+
+  <script>
+    const choices = ["rock", "paper", "scissors"];
+    let playerScore = 0;
+    let botScore = 0;
+
+    function play(playerChoice) {
+      const botChoice = choices[Math.floor(Math.random() * choices.length)];
+      let outcome = "";
+
+      if (playerChoice === botChoice) {
+        outcome = "It's a draw 🤝";
+      } else if (
+        (playerChoice === "rock" && botChoice === "scissors") ||
+        (playerChoice === "paper" && botChoice === "rock") ||
+        (playerChoice === "scissors" && botChoice === "paper")
+      ) {
+        playerScore++;
+        outcome = "You win 🎉";
+      } else {
+        botScore++;
+        outcome = "Bot wins 🤖";
+      }
+
+      document.getElementById("result").innerHTML =
+        `You chose <b>${playerChoice}</b><br>
+         Bot chose <b>${botChoice}</b><br><br>
+         ${outcome}`;
+
+      document.getElementById("score").innerText =
+        `You: ${playerScore} | Bot: ${botScore}`;
+    }
+  </script>
+
+</body>
+</html>
