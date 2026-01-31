@@ -192,5 +192,7 @@ function handleKeyPress(e) {
     case "s": startRound("scissors"); break;
     case "t": startRound("stone"); break;
     case "0": resetGame(); break;
+
+    
   }
 }
