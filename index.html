@@ -48,20 +48,20 @@
 
       <!-- Game Buttons -->
       <div class="choices-grid">
-        <button class="choice-btn" onclick="startRound('rock')" data-choice="rock">
+        <button class="choice-btn" data-choice="rock">
           <span class="emoji">🪨</span>
           <span class="label">Rock</span>
         </button>
-        <button class="choice-btn" onclick="startRound('paper')" data-choice="paper">
+        <button class="choice-btn" data-choice="paper">
           <span class="emoji">📄</span>
           <span class="label">Paper</span>
         </button>
-        <button class="choice-btn" onclick="startRound('scissors')" data-choice="scissors">
+        <button class="choice-btn" data-choice="scissors">
           <span class="emoji">✂️</span>
           <span class="label">Scissors</span>
         </button>
-        <button class="choice-btn" onclick="startRound('stone')" data-choice="stone">
-          <span class="emoji">🪨</span>
+        <button class="choice-btn" data-choice="stone">
+          <span class="emoji">🪵</span>
           <span class="label">Stone</span>
         </button>
       </div>
@@ -83,7 +83,7 @@
       </div>
 
       <!-- Reset Button -->
-      <button class="reset-btn" onclick="resetGame()">Reset Score</button>
+      <button class="reset-btn" id="resetBtn">Reset Score</button>
     </div>
   </div>
 
