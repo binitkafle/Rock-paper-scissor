@@ -38,12 +38,23 @@ document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   themeBtn.addEventListener("click", toggleTheme);
 
-  // Game buttons
+  // Game buttons - Add both click and touch support
   choiceButtons.forEach(btn => {
     btn.addEventListener("click", () => startRound(btn.dataset.choice));
+    // Prevent double-tap zoom on mobile
+    btn.addEventListener("touchstart", (e) => {
+      if (gameState.isPlaying) return;
+      e.preventDefault();
+      startRound(btn.dataset.choice);
+    }, { passive: false });
   });
 
   resetBtn.addEventListener("click", resetGame);
+  resetBtn.addEventListener("touchstart", (e) => {
+    if (gameState.playerScore === 0 && gameState.botScore === 0) return;
+    e.preventDefault();
+    resetGame();
+  }, { passive: false });
 
   // Animate load
   gsap.from(".game", { opacity: 0, y: 50, duration: 0.8, ease: "power3.out" });
@@ -52,6 +63,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Keyboard shortcuts
   document.addEventListener("keydown", handleKeyPress);
+
+  // Prevent text selection on mobile
+  document.body.style.webkitUserSelect = "none";
+  document.body.style.userSelect = "none";
 });
 
 /* ===============================
@@ -186,13 +201,37 @@ function enableAllButtons() {
    =============================== */
 function handleKeyPress(e) {
   if (gameState.isPlaying) return;
-  switch(e.key.toLowerCase()) {
-    case "r": startRound("rock"); break;
-    case "p": startRound("paper"); break;
-    case "s": startRound("scissors"); break;
-    case "t": startRound("stone"); break;
-    case "0": resetGame(); break;
-
-    
+  const key = e.key.toLowerCase();
+  
+  switch(key) {
+    case "r":
+      startRound("rock");
+      break;
+    case "p":
+      startRound("paper");
+      break;
+    case "s":
+      startRound("scissors");
+      break;
+    case "t":
+      startRound("stone");
+      break;
+    case "0":
+      resetGame();
+      break;
+    default:
+      // Ignore other keys
+      break;
   }
+}
+
+// Export for testing if needed
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { 
+    gameState, 
+    startRound, 
+    resetGame, 
+    decideWinner,
+    choices 
+  };
 }

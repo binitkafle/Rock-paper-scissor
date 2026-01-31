@@ -2,14 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0f0f1e" />
   <title>Rock Paper Scissors Stone</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <!-- Theme Toggle -->
   <div class="theme-toggle">
-    <button id="themeBtn" class="theme-btn">
+    <button id="themeBtn" class="theme-btn" aria-label="Toggle theme">
       <span class="sun-icon">☀️</span>
       <span class="moon-icon">🌙</span>
     </button>
@@ -48,19 +51,19 @@
 
       <!-- Game Buttons -->
       <div class="choices-grid">
-        <button class="choice-btn" data-choice="rock">
+        <button class="choice-btn" data-choice="rock" type="button">
           <span class="emoji">🪨</span>
           <span class="label">Rock</span>
         </button>
-        <button class="choice-btn" data-choice="paper">
+        <button class="choice-btn" data-choice="paper" type="button">
           <span class="emoji">📄</span>
           <span class="label">Paper</span>
         </button>
-        <button class="choice-btn" data-choice="scissors">
+        <button class="choice-btn" data-choice="scissors" type="button">
           <span class="emoji">✂️</span>
           <span class="label">Scissors</span>
         </button>
-        <button class="choice-btn" data-choice="stone">
+        <button class="choice-btn" data-choice="stone" type="button">
           <span class="emoji">🪵</span>
           <span class="label">Stone</span>
         </button>
@@ -83,7 +86,7 @@
       </div>
 
       <!-- Reset Button -->
-      <button class="reset-btn" id="resetBtn">Reset Score</button>
+      <button class="reset-btn" id="resetBtn" type="button">Reset Score</button>
     </div>
   </div>
 

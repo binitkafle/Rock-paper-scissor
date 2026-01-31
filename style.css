@@ -430,6 +430,7 @@ body.light-theme .moon-icon {
 
   .choice-btn {
     padding: 15px;
+    touch-action: manipulation;
   }
 
   .choice-btn .emoji {
@@ -458,32 +459,48 @@ body.light-theme .moon-icon {
 @media (max-width: 480px) {
   .container {
     padding: 15px;
+    min-height: 100vh;
   }
 
   .game {
     padding: 20px 15px;
     border-radius: 15px;
+    max-width: 100%;
   }
 
   .title {
     font-size: 1.5rem;
+    margin-bottom: 8px;
   }
 
   .subtitle {
     font-size: 0.9rem;
+    margin: 0;
   }
 
   .header {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
+  }
+
+  .arena {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .player-section {
+    width: 100%;
   }
 
   .player-card {
-    min-width: 110px;
+    min-width: 100%;
+    width: 100%;
     padding: 15px 12px;
   }
 
   .player-label {
     font-size: 0.8rem;
+    margin-bottom: 10px;
   }
 
   .choice-display {
@@ -491,51 +508,129 @@ body.light-theme .moon-icon {
     min-height: 60px;
   }
 
+  .vs-badge {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    margin: 5px 0;
+  }
+
   .choices-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-    margin: 25px 0;
+    margin: 20px 0;
   }
 
   .choice-btn {
     padding: 12px;
     gap: 6px;
+    font-size: 0.75rem;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .choice-btn .emoji {
     font-size: 1.8rem;
+    line-height: 1;
   }
 
   .choice-btn .label {
     font-size: 0.75rem;
   }
 
+  .choice-btn:active {
+    transform: scale(0.95);
+  }
+
   .result-section {
     padding: 15px;
     min-height: 100px;
     gap: 12px;
+    margin: 20px 0;
   }
 
   .result-text {
     font-size: 1rem;
+    min-height: 25px;
+  }
+
+  .score-board {
+    gap: 15px;
   }
 
   .score-label {
     font-size: 0.75rem;
+    margin-bottom: 2px;
   }
 
   .score-value {
     font-size: 1.2rem;
   }
 
+  .score-divider {
+    font-size: 1.2rem;
+  }
+
   .reset-btn {
-    padding: 10px;
+    padding: 10px 15px;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .reset-btn:active {
+    transform: scale(0.98);
+  }
+
+  .theme-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    top: 12px;
+    right: 12px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Extra Small Devices (< 360px) */
+@media (max-width: 360px) {
+  .game {
+    padding: 15px 12px;
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+  }
+
+  .choice-display {
+    font-size: 2rem;
+  }
+
+  .choice-btn .emoji {
+    font-size: 1.5rem;
+  }
+
+  .choices-grid {
+    gap: 8px;
+  }
+
+  .result-section {
+    padding: 12px;
+  }
+
+  .result-text {
     font-size: 0.9rem;
   }
 
-  .vs-badge {
-    width: 40px;
-    height: 40px;
+  .score-value {
     font-size: 1rem;
   }
 }
